@@ -48,5 +48,5 @@ package.json
 package-lock.json
 fonts.scale
 fonts.dir
-/openstack.env
-/openstack.pw.env
+/config/openstack.env
+/config/openstack.pw.env

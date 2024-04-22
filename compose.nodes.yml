@@ -7,7 +7,7 @@ services:
       context: ./
       dockerfile: ./node/Dockerfile
     environment:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /dev:/dev
     - /var/lib/nova:/var/lib/nova

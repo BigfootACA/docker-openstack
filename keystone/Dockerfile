@@ -10,7 +10,7 @@ COPY keystone/wsgi-keystone.conf /etc/httpd/conf.d/wsgi-keystone.conf
 EXPOSE 5000
 
 # Add scripts
-COPY keystone/healthy.sh keystone/startup.sh keystone/config.sh ./openstack.env ./openstack.pw.env /
+COPY keystone/healthy.sh keystone/startup.sh keystone/config.sh config/openstack.env config/openstack.pw.env /
 RUN chmod +x /healthy.sh /startup.sh /config.sh
 RUN chmod 0600 /openstack.pw.env
 RUN /config.sh

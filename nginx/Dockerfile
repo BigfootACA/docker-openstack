@@ -6,6 +6,6 @@ COPY nginx/openstack.conf /etc/nginx/conf.d/
 EXPOSE 8080
 
 # Add scripts
-COPY nginx/healthy.sh nginx/startup.sh ./openstack.env /
+COPY nginx/healthy.sh nginx/startup.sh config/openstack.env /
 RUN chmod +x /healthy.sh /startup.sh
 CMD ["/startup.sh"]

@@ -7,8 +7,9 @@ VOLUME [ "/var/lib/cinder" ]
 EXPOSE 8776
 
 # Add scripts
+COPY config /config
 COPY cinder/startup.api.sh /startup.sh
-COPY cinder/healthy.sh cinder/config.sh ./openstack.env ./openstack.pw.env ./admin-rc /
+COPY cinder/healthy.sh cinder/config.sh config/openstack.env config/openstack.pw.env ./admin-rc /
 RUN chmod +x /healthy.sh /startup.sh /config.sh
 RUN chmod 0600 /openstack.pw.env
 RUN /config.sh

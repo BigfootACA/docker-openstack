@@ -1,5 +1,6 @@
-source openstack.env
-source openstack.pw.env
+export OS_FOLDER="$(dirname "$BASH_SOURCE")"
+source "$OS_FOLDER/config/openstack.env"
+source "$OS_FOLDER/config/openstack.pw.env"
 export OS_USERNAME=admin
 export OS_PASSWORD=$PWD_ADMIN
 export OS_PROJECT_NAME=admin

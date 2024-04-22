@@ -7,7 +7,7 @@ services:
       context: ./
       dockerfile: ./nginx/Dockerfile
     env_file:
-    - openstack.env
+    - config/openstack.env
     ports:
     - 8080:8080
     healthcheck:
@@ -23,7 +23,7 @@ services:
       context: ./
       dockerfile: ./keystone/Dockerfile
     env_file:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /var/lib/keystone:/var/lib/keystone
     ports:
@@ -46,7 +46,7 @@ services:
       context: ./
       dockerfile: ./glance/Dockerfile
     env_file:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /var/lib/glance:/var/lib/glance
     ports:
@@ -69,7 +69,7 @@ services:
       context: ./
       dockerfile: ./placement/Dockerfile
     env_file:
-    - openstack.env
+    - config/openstack.env
     ports:
     - 8778:8778
     healthcheck:
@@ -90,7 +90,7 @@ services:
       context: ./
       dockerfile: ./neutron/Dockerfile.server
     env_file:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /var/lib/neutron:/var/lib/neutron
     ports:
@@ -113,7 +113,7 @@ services:
       context: ./
       dockerfile: ./horizon/Dockerfile
     env_file:
-    - openstack.env
+    - config/openstack.env
     ports:
     - 8989:8989
     healthcheck:
@@ -134,7 +134,7 @@ services:
       context: ./
       dockerfile: ./cinder/Dockerfile.api
     env_file:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /var/lib/cinder:/var/lib/cinder
     ports:
@@ -157,7 +157,7 @@ services:
       context: ./
       dockerfile: ./cinder/Dockerfile.scheduler
     env_file:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /var/lib/cinder:/var/lib/cinder
     depends_on:
@@ -173,7 +173,7 @@ services:
       context: ./
       dockerfile: ./nova/Dockerfile.api
     env_file:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /var/lib/nova:/var/lib/nova
     ports:
@@ -198,7 +198,7 @@ services:
       context: ./
       dockerfile: ./nova/Dockerfile.scheduler
     env_file:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /var/lib/nova:/var/lib/nova
     depends_on:
@@ -214,7 +214,7 @@ services:
       context: ./
       dockerfile: ./nova/Dockerfile.conductor
     env_file:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /var/lib/nova:/var/lib/nova
     depends_on:
@@ -230,7 +230,7 @@ services:
       context: ./
       dockerfile: ./nova/Dockerfile.novncproxy
     env_file:
-    - openstack.env
+    - config/openstack.env
     volumes:
     - /var/lib/nova:/var/lib/nova
     ports:

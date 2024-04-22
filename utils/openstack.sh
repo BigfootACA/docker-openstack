@@ -1,7 +1,7 @@
 #!/usr/bin/bash
 cd "$(dirname "$0")/.."
-source openstack.env
-source openstack.pw.env
+source config/openstack.env
+source config/openstack.pw.env
 set -xe
 openstack project create --domain default --description "Service Project" service
 openstack user create --domain default --password $PWD_GLANCE    glance

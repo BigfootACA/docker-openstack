@@ -6,6 +6,7 @@ STOPSIGNAL SIGRTMIN+4
 # Add scripts
 COPY neutron /neutron
 COPY cinder /cinder
+COPY config /config
 COPY utils /utils
 COPY nova /nova
 COPY node /node

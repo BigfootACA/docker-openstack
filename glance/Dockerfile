@@ -7,7 +7,8 @@ VOLUME [ "/var/lib/glance" ]
 EXPOSE 9292
 
 # Add scripts
-COPY glance/healthy.sh glance/startup.sh glance/config.sh ./openstack.env ./openstack.pw.env ./admin-rc /
+COPY config /config
+COPY glance/healthy.sh glance/startup.sh glance/config.sh config/openstack.env config/openstack.pw.env ./admin-rc /
 RUN chmod +x /healthy.sh /startup.sh /config.sh
 RUN chmod 0600 /openstack.pw.env
 RUN /config.sh

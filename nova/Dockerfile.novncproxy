@@ -9,7 +9,7 @@ EXPOSE 6080
 # Add scripts
 COPY nova/startup.novncproxy.sh /startup.sh
 COPY nova/healthy.novncproxy.sh /healthy.sh
-COPY nova/config.sh ./openstack.env ./openstack.pw.env /
+COPY nova/config.sh config/openstack.env config/openstack.pw.env /
 RUN chmod +x /healthy.sh /startup.sh /config.sh
 RUN chmod 0600 /openstack.pw.env
 RUN /config.sh

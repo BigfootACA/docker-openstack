@@ -11,7 +11,7 @@ RUN ln -s zh_Hans /usr/share/openstack-dashboard/openstack_dashboard/locale/zh_h
 EXPOSE 8989
 
 # Add scripts
-COPY horizon/healthy.sh horizon/startup.sh ./openstack.env ./openstack.pw.env /
+COPY horizon/healthy.sh horizon/startup.sh config/openstack.env config/openstack.pw.env /
 RUN chmod +x /healthy.sh /startup.sh
 RUN chmod 0600 /openstack.pw.env
 CMD ["/startup.sh"]
