@@ -1,0 +1,242 @@
+services:
+  svc_nginx:
+    hostname: os-api-gateway
+    restart: unless-stopped
+    image: img_nginx
+    build:
+      context: ./
+      dockerfile: ./nginx/Dockerfile
+    env_file:
+    - openstack.env
+    ports:
+    - 8080:8080
+    healthcheck:
+      test: ["CMD", "/healthy.sh"]
+      interval: 20s
+      timeout: 1s
+      retries: 10
+  svc_keystone:
+    hostname: os-keystone-api
+    restart: unless-stopped
+    image: img_keystone
+    build:
+      context: ./
+      dockerfile: ./keystone/Dockerfile
+    env_file:
+    - openstack.env
+    volumes:
+    - /var/lib/keystone:/var/lib/keystone
+    ports:
+    - 5000:5000
+    healthcheck:
+      test: ["CMD", "/healthy.sh"]
+      interval: 20s
+      timeout: 1s
+      retries: 10
+    depends_on:
+      svc_nginx:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_glance:
+    hostname: os-glance-api
+    restart: unless-stopped
+    image: img_glance
+    build:
+      context: ./
+      dockerfile: ./glance/Dockerfile
+    env_file:
+    - openstack.env
+    volumes:
+    - /var/lib/glance:/var/lib/glance
+    ports:
+    - 9292:9292
+    healthcheck:
+      test: ["CMD", "/healthy.sh"]
+      interval: 20s
+      timeout: 1s
+      retries: 10
+    depends_on:
+      svc_keystone:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_placement:
+    hostname: os-placement-api
+    restart: unless-stopped
+    image: img_placement
+    build:
+      context: ./
+      dockerfile: ./placement/Dockerfile
+    env_file:
+    - openstack.env
+    ports:
+    - 8778:8778
+    healthcheck:
+      test: ["CMD", "/healthy.sh"]
+      interval: 20s
+      timeout: 1s
+      retries: 10
+    depends_on:
+      svc_keystone:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_neutron:
+    hostname: os-neutron-server
+    restart: unless-stopped
+    image: img_neutron
+    build:
+      context: ./
+      dockerfile: ./neutron/Dockerfile.server
+    env_file:
+    - openstack.env
+    volumes:
+    - /var/lib/neutron:/var/lib/neutron
+    ports:
+    - 9696:9696
+    healthcheck:
+      test: ["CMD", "/healthy.sh"]
+      interval: 20s
+      timeout: 1s
+      retries: 10
+    depends_on:
+      svc_keystone:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_horizon:
+    hostname: os-horizon
+    restart: unless-stopped
+    image: img_horizon
+    build:
+      context: ./
+      dockerfile: ./horizon/Dockerfile
+    env_file:
+    - openstack.env
+    ports:
+    - 8989:8989
+    healthcheck:
+      test: ["CMD", "/healthy.sh"]
+      interval: 20s
+      timeout: 1s
+      retries: 10
+    depends_on:
+      svc_keystone:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_cinder:
+    hostname: os-cinder-api
+    restart: unless-stopped
+    image: img_cinder
+    build:
+      context: ./
+      dockerfile: ./cinder/Dockerfile.api
+    env_file:
+    - openstack.env
+    volumes:
+    - /var/lib/cinder:/var/lib/cinder
+    ports:
+    - 8776:8776
+    healthcheck:
+      test: ["CMD", "/healthy.sh"]
+      interval: 20s
+      timeout: 1s
+      retries: 10
+    depends_on:
+      svc_keystone:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_cinder_scheduler:
+    hostname: os-cinder-scheduler
+    restart: unless-stopped
+    image: img_cinder_scheduler
+    build:
+      context: ./
+      dockerfile: ./cinder/Dockerfile.scheduler
+    env_file:
+    - openstack.env
+    volumes:
+    - /var/lib/cinder:/var/lib/cinder
+    depends_on:
+      svc_cinder:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_nova:
+    hostname: os-nova-api
+    restart: unless-stopped
+    image: img_nova
+    build:
+      context: ./
+      dockerfile: ./nova/Dockerfile.api
+    env_file:
+    - openstack.env
+    volumes:
+    - /var/lib/nova:/var/lib/nova
+    ports:
+    - 8774:8774
+    healthcheck:
+      test: ["CMD", "/healthy.sh"]
+      interval: 20s
+      timeout: 1s
+      retries: 10
+    depends_on:
+      svc_keystone:
+        condition: service_healthy
+      svc_placement:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_nova_scheduler:
+    hostname: os-nova-scheduler
+    restart: unless-stopped
+    image: img_nova_scheduler
+    build:
+      context: ./
+      dockerfile: ./nova/Dockerfile.scheduler
+    env_file:
+    - openstack.env
+    volumes:
+    - /var/lib/nova:/var/lib/nova
+    depends_on:
+      svc_nova:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_nova_conductor:
+    hostname: os-nova-conductor
+    restart: unless-stopped
+    image: img_nova_conductor
+    build:
+      context: ./
+      dockerfile: ./nova/Dockerfile.conductor
+    env_file:
+    - openstack.env
+    volumes:
+    - /var/lib/nova:/var/lib/nova
+    depends_on:
+      svc_nova:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
+  svc_nova_novncproxy:
+    hostname: os-nova-novncproxy
+    restart: unless-stopped
+    image: img_nova_novncproxy
+    build:
+      context: ./
+      dockerfile: ./nova/Dockerfile.novncproxy
+    env_file:
+    - openstack.env
+    volumes:
+    - /var/lib/nova:/var/lib/nova
+    ports:
+    - 6080:6080
+    depends_on:
+      svc_nova:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway

@@ -1,0 +1,12 @@
+FROM rocky-openstack
+
+# Data volume
+VOLUME [ "/var/lib/nova" ]
+
+# Add scripts
+COPY nova/startup.conductor.sh /startup.sh
+COPY nova/config.sh ./openstack.env ./openstack.pw.env /
+RUN chmod +x /startup.sh /config.sh
+RUN chmod 0600 /openstack.pw.env
+RUN /config.sh
+CMD ["/startup.sh"]

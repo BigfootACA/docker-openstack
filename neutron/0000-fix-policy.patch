@@ -1,0 +1,19 @@
+diff --git a/usr/lib/python3.9/site-packages/neutron/policy.py b/usr/lib/python3.9/site-packages/neutron/policy.py
+--- a/usr/lib/python3.9/site-packages/neutron/policy.py
++++ b/usr/lib/python3.9/site-packages/neutron/policy.py
+@@ -477,6 +477,7 @@ def check(context, action, target, plugin=None, might_not_exist=False,
+
+     :return: Returns True if access is permitted else False.
+     """
++    init()
+     # If we already know the context has admin rights do not perform an
+     # additional check and authorize the operation
+     # TODO(slaweq): Remove that is_admin check and always perform rules checks
+@@ -513,6 +514,7 @@ def enforce(context, action, target, plugin=None, pluralized=None):
+     :raises oslo_policy.policy.PolicyNotAuthorized:
+             if verification fails.
+     """
++    init()
+     # If we already know the context has admin rights do not perform an
+     # additional check and authorize the operation
+     # TODO(slaweq): Remove that is_admin check and always perform rules checks

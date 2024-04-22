@@ -1,0 +1,19 @@
+services:
+  svc_openstack_node:
+    hostname: os-compute-node
+    restart: unless-stopped
+    image: img_openstack_node
+    build:
+      context: ./
+      dockerfile: ./node/Dockerfile
+    environment:
+    - openstack.env
+    volumes:
+    - /dev:/dev
+    - /var/lib/nova:/var/lib/nova
+    - /var/lib/nova/libvirt:/var/lib/libvirt
+    - /var/lib/cinder:/var/lib/cinder
+    - /var/lib/neutron:/var/lib/neutron
+    - /run/osnet-netns:/run/netns
+    privileged: true
+    tty: true

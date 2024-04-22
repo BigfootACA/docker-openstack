@@ -1,0 +1,15 @@
+FROM rocky-openstack
+
+# Data volume
+VOLUME [ "/var/lib/cinder" ]
+
+# Service port
+EXPOSE 8776
+
+# Add scripts
+COPY cinder/startup.api.sh /startup.sh
+COPY cinder/healthy.sh cinder/config.sh ./openstack.env ./openstack.pw.env ./admin-rc /
+RUN chmod +x /healthy.sh /startup.sh /config.sh
+RUN chmod 0600 /openstack.pw.env
+RUN /config.sh
+CMD ["/startup.sh"]

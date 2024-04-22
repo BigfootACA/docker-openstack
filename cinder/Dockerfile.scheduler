@@ -1,0 +1,12 @@
+FROM rocky-openstack
+
+# Data volume
+VOLUME [ "/var/lib/cinder" ]
+
+# Add scripts
+COPY cinder/startup.scheduler.sh /startup.sh
+COPY cinder/config.sh ./openstack.env ./openstack.pw.env ./admin-rc /
+RUN chmod +x /startup.sh /config.sh
+RUN chmod 0600 /openstack.pw.env
+RUN /config.sh
+CMD ["/startup.sh"]

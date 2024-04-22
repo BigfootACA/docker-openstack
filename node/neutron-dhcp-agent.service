@@ -1,0 +1,20 @@
+[Unit]
+Description=OpenStack Neutron DHCP Agent
+After=syslog.target network.target config-runtime.service
+
+[Service]
+Type=simple
+User=neutron
+ExecStart=/usr/bin/neutron-dhcp-agent \
+	--config-file /usr/share/neutron/neutron-dist.conf \
+	--config-file /etc/neutron/neutron.conf \
+	--config-file /etc/neutron/dhcp_agent.ini \
+	--config-dir /etc/neutron/conf.d/common \
+	--config-dir /etc/neutron/conf.d/neutron-dhcp-agent \
+	--use-journal
+PrivateTmp=false
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

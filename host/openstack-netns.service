@@ -1,0 +1,13 @@
+[Unit]
+Description=OpenStack Network Namespace Startup
+Before=docker.service
+
+[Service]
+Type=oneshot
+SyslogIdentifier=openstack-netns
+RemainAfterExit=yes
+ExecStart=/bin/bash /etc/scripts/stack-ns.sh start
+ExecStop=/bin/bash /etc/scripts/stack-ns.sh stop
+
+[Install]
+WantedBy=multi-user.target

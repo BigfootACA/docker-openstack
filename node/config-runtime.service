@@ -1,0 +1,11 @@
+[Unit]
+Description=OpenStack Runtime Config Editor
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=/usr/bin/bash /node/config.runtime.sh
+SyslogIdentifier=config-runtime
+
+[Install]
+WantedBy=multi-user.target

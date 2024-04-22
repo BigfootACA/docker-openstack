@@ -1,0 +1,20 @@
+FROM rocky-openstack
+
+# Data volume
+VOLUME [ "/var/lib/neutron" ]
+
+# Apply Patches
+COPY utils/patches.sh neutron/*.patch /tmp/
+RUN bash /tmp/patches.sh /tmp
+RUN rm -rf /tmp/*.patch /tmp/patches.sh
+
+# Service port
+EXPOSE 9696
+
+# Add scripts
+COPY neutron/startup.server.sh /startup.sh
+COPY neutron/healthy.sh neutron/config.sh ./openstack.env ./openstack.pw.env /
+RUN chmod +x /healthy.sh /startup.sh /config.sh
+RUN chmod 0600 /openstack.pw.env
+RUN /config.sh
+CMD ["/startup.sh"]
