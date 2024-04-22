@@ -1,6 +1,7 @@
 #!/bin/bash
 source /openstack.env
 set -ex
+trap "pgrep -P $$ | xargs kill" TERM
 
 glance-manage db_sync
 
