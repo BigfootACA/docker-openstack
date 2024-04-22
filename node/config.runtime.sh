@@ -2,7 +2,9 @@
 source /openstack.env
 set -ex
 
-NODE_IP=$(bash /utils/get-ipv4.sh eth-manage)
+if [ -z "${NODE_IP}" ]; then
+	NODE_IP="$(bash /utils/get-ipv4.sh eth-manage)"
+fi
 
 crudini --set /etc/neutron/plugins/ml2/linuxbridge_agent.ini vxlan local_ip "$NODE_IP"
 crudini --set /etc/neutron/metadata_agent.ini DEFAULT nova_metadata_host "$NODE_IP"
