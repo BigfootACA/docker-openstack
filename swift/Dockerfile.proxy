@@ -1,0 +1,16 @@
+FROM rocky-openstack
+
+# Data volume
+VOLUME [ "/var/lib/swift" ]
+
+# Service port
+EXPOSE 8082
+
+# Add scripts
+COPY config /config
+COPY swift/startup.proxy.sh /startup.sh
+COPY swift/config.sh config/swift.txt config/openstack.env config/openstack.pw.env ./admin-rc /
+RUN chmod +x /startup.sh /config.sh
+RUN chmod 0600 /openstack.pw.env
+RUN /config.sh
+CMD ["/startup.sh"]

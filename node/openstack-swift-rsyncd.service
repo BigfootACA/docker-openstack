@@ -1,0 +1,12 @@
+[Unit]
+Description=Fast remote file copy program daemon for OpenStack Swift
+ConditionPathExists=/etc/rsyncd.conf
+Wants=network-online.target
+After=network-online.target config-runtime.service
+
+[Service]
+EnvironmentFile=/openstack.env
+ExecStart=/usr/bin/rsync --daemon --no-detach --address "$NODE_IP"
+
+[Install]
+WantedBy=multi-user.target

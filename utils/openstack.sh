@@ -9,16 +9,19 @@ openstack user create --domain default --password $PWD_PLACEMENT placement
 openstack user create --domain default --password $PWD_NOVA      nova
 openstack user create --domain default --password $PWD_NEUTRON   neutron
 openstack user create --domain default --password $PWD_CINDER    cinder
+openstack user create --domain default --password $PWD_SWIFT     swift
 openstack role add --project service --user glance    admin
 openstack role add --project service --user placement admin
 openstack role add --project service --user nova      admin
 openstack role add --project service --user neutron   admin
 openstack role add --project service --user cinder    admin
+openstack role add --project service --user swift     admin
 openstack service create --name glance    --description "OpenStack Image"          image
 openstack service create --name placement --description "Placement API"            placement
 openstack service create --name nova      --description "OpenStack Compute"        compute
 openstack service create --name neutron   --description "OpenStack Networking"     network
 openstack service create --name cinderv3  --description "OpenStack Block Storage"  volumev3
+openstack service create --name swift     --description "OpenStack Object Storage" object-store
 openstack endpoint create --region $REGION image        public   $SRV_API/service/glance
 openstack endpoint create --region $REGION image        internal $SRV_API/service/glance
 openstack endpoint create --region $REGION image        admin    $SRV_API/service/glance
@@ -34,4 +37,7 @@ openstack endpoint create --region $REGION compute      admin    $SRV_API/servic
 openstack endpoint create --region $REGION volumev3     public   $SRV_API/service/cinder/v3/%\(project_id\)s
 openstack endpoint create --region $REGION volumev3     internal $SRV_API/service/cinder/v3/%\(project_id\)s
 openstack endpoint create --region $REGION volumev3     admin    $SRV_API/service/cinder/v3/%\(project_id\)s
+openstack endpoint create --region $REGION object-store public   $SRV_API/service/swift/v1/AUTH_%\(project_id\)s
+openstack endpoint create --region $REGION object-store internal $SRV_API/service/swift/v1/AUTH_%\(project_id\)s
+openstack endpoint create --region $REGION object-store admin    $SRV_API/service/swift/v1
 openstack role add --user glance --user-domain Default --system all reader

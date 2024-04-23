@@ -179,6 +179,24 @@ services:
         condition: service_healthy
     extra_hosts:
     - host.docker.internal:host-gateway
+  svc_swift_proxy:
+    hostname: os-swift-proxy
+    restart: unless-stopped
+    image: img_swift
+    build:
+      context: ./
+      dockerfile: ./swift/Dockerfile.proxy
+    env_file:
+    - config/openstack.env
+    volumes:
+    - /var/lib/swift:/var/lib/swift
+    ports:
+    - 8082:8082
+    depends_on:
+      svc_keystone:
+        condition: service_healthy
+    extra_hosts:
+    - host.docker.internal:host-gateway
   svc_nova:
     hostname: os-nova-api
     restart: unless-stopped

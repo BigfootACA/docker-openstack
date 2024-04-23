@@ -12,6 +12,7 @@ services:
     - /dev:/dev
     - /var/lib/nova:/var/lib/nova
     - /var/lib/nova/libvirt:/var/lib/libvirt
+    - /var/lib/swift:/var/lib/swift
     - /var/lib/cinder:/var/lib/cinder
     - /var/lib/neutron:/var/lib/neutron
     - /run/osnet-netns:/run/netns

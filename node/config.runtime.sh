@@ -13,6 +13,10 @@ crudini --set /etc/cinder/cinder.conf lvm volume_group "$CINDER_LVM_GROUP"
 crudini --set /etc/nova/nova.conf DEFAULT my_ip "$NODE_IP"
 crudini --del /etc/nova/nova.conf api_database connection
 crudini --del /etc/cinder/cinder.conf DEFAULT use_stderr
+crudini --set /etc/swift/account-server.conf DEFAULT bind_ip "$NODE_IP"
+crudini --set /etc/swift/container-server.conf DEFAULT bind_ip "$NODE_IP"
+crudini --set /etc/swift/object-server.conf DEFAULT bind_ip "$NODE_IP"
+sed -i "s/%MANAGEMENT_INTERFACE_IP_ADDRESS%/$NODE_IP/g" /etc/rsyncd.conf
 
 if ! [ -h /etc/iscsi/initiatorname.iscsi ]; then
 	rm -f /etc/iscsi/initiatorname.iscsi

@@ -87,6 +87,18 @@ RUN dnf install -y \
 RUN dnf install -y \
 	openstack-cinder
 
+# Add OpenStack Swift
+RUN dnf install -y \
+	openstack-swift-proxy \
+	openstack-swift-account \
+	openstack-swift-container \
+	openstack-swift-object \
+	python-swiftclient \
+	python-keystoneclient \
+	python-keystonemiddleware \
+	rsync-daemon \
+	rsync
+
 # Add other utils
 RUN dnf install -y \
 	patch \
