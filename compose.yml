@@ -10,6 +10,15 @@ services:
     - config/openstack.env
     ports:
     - 8080:8080
+    depends_on:
+    - svc_keystone
+    - svc_glance
+    - svc_placement
+    - svc_neutron
+    - svc_horizon
+    - svc_cinder
+    - svc_swift_proxy
+    - svc_nova
     healthcheck:
       test: ["CMD", "/healthy.sh"]
       interval: 2m
@@ -37,9 +46,6 @@ services:
       retries: 3
       start_period: 20s
       start_interval: 1s
-    depends_on:
-      svc_nginx:
-        condition: service_healthy
     extra_hosts:
     - host.docker.internal:host-gateway
   svc_glance:
