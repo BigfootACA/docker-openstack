@@ -10,7 +10,9 @@ if ! [ -f /var/lib/glance/.initialized ]; then
 	touch /var/lib/glance/.initialized
 fi
 
+set +x
 source /admin-rc
+set -x
 crudini --set /etc/glance/glance-api.conf \
 	oslo_limit endpoint_id \
 	"$(openstack endpoint list \
