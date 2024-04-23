@@ -7,6 +7,8 @@ CFG=/etc/keystone/keystone.conf
 crudini --set $CFG token provider fernet
 crudini --set $CFG DEFAULT public_endpoint $SRV_API/service/keystone/
 crudini --set $CFG DEFAULT admin_endpoint $SRV_API/service/keystone/
+crudini --set $CFG credential key_repository /var/lib/keystone/credential-keys/
+crudini --set $CFG fernet_receipts key_repository /var/lib/keystone/fernet-keys/
 crudini --set $CFG database connection mysql+pymysql://keystone:$PWD_KEYSTONE@$SRV_MYSQL/openstack_keystone
 
 oslopolicy-convert-json-to-yaml \

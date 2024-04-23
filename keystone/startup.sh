@@ -8,8 +8,9 @@ keystone-manage db_sync
 if ! [ -f /var/lib/keystone/.initialized ]; then
 	source /openstack.pw.env
 	chown keystone:keystone /var/lib/keystone
-	mkdir -p /var/lib/keystone/fernet-keys /var/lib/keystone/credential-keys
-	chown -R keystone:keystone /var/lib/keystone/fernet-keys /var/lib/keystone/credential-keys
+	mkdir -p /var/lib/keystone/{fernet,credential}-keys
+	chown -R keystone:keystone /var/lib/keystone/{fernet,credential}-keys
+	chown 0700 /var/lib/keystone/{fernet,credential}-keys
 	keystone-manage fernet_setup --keystone-user keystone --keystone-group keystone
 	keystone-manage credential_setup --keystone-user keystone --keystone-group keystone
 	keystone-manage bootstrap \
